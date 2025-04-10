@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+
 
 class ContactService
 {
@@ -21,5 +23,23 @@ class ContactService
     public function delete(Contact $contact): void
     {
         $contact->delete();
+    }
+
+    public function exportCsv()
+    {
+        $contacts = Contact::all();
+
+        $csvData = "ID,Name,Contact,Email\n";
+
+        foreach ($contacts as $contact) {
+            $csvData .= "{$contact->id},\"{$contact->name}\",\"{$contact->contact}\",\"{$contact->email}\"\n";
+        }
+
+        $filename = 'contacts_export_' . now()->format('Ymd_His') . '.csv';
+
+        return Response::make($csvData, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+        ]);
     }
 }

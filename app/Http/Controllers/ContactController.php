@@ -41,7 +41,7 @@ class ContactController extends Controller
 
         $this->service->store($request);
 
-        return redirect()->route('contacts.index')->with('success', 'Contato criado com sucesso!');
+        return redirect()->route('contacts.index')->with('success', __('messages.contact.create_success'));
     }
 
     public function edit(Contact $contact)
@@ -67,5 +67,10 @@ class ContactController extends Controller
         $this->service->delete($contact);
 
         return redirect()->route('contacts.index')->with('success', 'Contato excluído com sucesso!');
+    }
+
+    public function export()
+    {
+        return $this->service->exportCsv();
     }
 }
