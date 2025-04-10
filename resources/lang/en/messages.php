@@ -23,6 +23,19 @@ return [
         'cancel' => 'Cancel',
         'details' => 'Detalhes do Contacto',
         'actions' => 'Ações',
+        'csv' => 'CSV',
+
     ],
+
+    'auth' => [
+        'login' => 'Login',
+        'email' => 'Email Address',
+        'password' => 'Password',
+        'remember' => 'Remember Me',
+        'forgot' => 'Forgot Your Password?',
+        'no_account' => 'Don’t have an account yet?',
+        'already_account' => 'Already have an account',
+    ],
+
 ];
 

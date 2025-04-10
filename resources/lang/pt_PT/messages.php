@@ -23,5 +23,21 @@ return [
         'cancel' => 'Cancelar',
         'details' => 'Contact Details',
         'actions' => 'Actions',
+        'csv' => 'CSV',
     ],
+
+    'auth_pt_PT' => [
+        'register' => 'Registar',
+        'name' => 'Nome',
+        'email' => 'Endereço de Email',
+        'password' => 'Palavra-passe',
+        'password_confirm' => 'Confirmar Palavra-passe',
+        'login' => 'Iniciar Sessão',
+        'remember' => 'Lembrar-me',
+        'forgot' => 'Esqueceu-se da sua palavra-passe?',
+        'no_account' => 'Ainda não tem conta?',
+        'already_account' => 'Já tem uma conta',
+    ],
+
+
 ];
