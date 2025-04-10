@@ -2,51 +2,79 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mb-4">Lista de Contatos</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">{{ __('messages.contact.list') }}</h1>
 
+            <div class="d-flex gap-2">
+                @auth
+                    <a href="{{ route('contacts.export') }}" class="btn btn-outline-primary shadow-sm">
+                        <i class="bi bi-download"></i> {{ __('messages.contact.csv') }}
+                    </a>
+                @endauth
+
+            @auth
+                <a href="{{ route('contacts.create') }}" class="btn btn-success shadow-sm">
+                    <i class="bi bi-plus-lg"></i> {{ __('messages.contact.create') }}
+                </a>
+            @endauth
+            </div>
+        </div>
+
+        {{-- Mensagem de sucesso --}}
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         @endif
 
-        @auth
-            <a href="{{ route('contacts.create') }}" class="btn btn-primary mb-3">Adicionar Contato</a>
-        @endauth
-
+        {{-- Lista de contatos --}}
         @if($contacts->count())
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                <tr>
-                    <th>Nome</th>
-                    <th>Contato</th>
-                    <th>Email</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach ($contacts as $contact)
+            <div class="table-responsive">
+                <table class="table table-hover align-middle shadow-sm rounded">
+                    <thead class="table-light">
                     <tr>
-                        <td>{{ $contact->name }}</td>
-                        <td>{{ $contact->contact }}</td>
-                        <td>{{ $contact->email }}</td>
-                        <td>
-                            <a href="{{ route('contacts.show', $contact) }}" class="btn btn-sm btn-info">Ver</a>
-
-                            @auth
-                                <a href="{{ route('contacts.edit', $contact) }}" class="btn btn-sm btn-warning">Editar</a>
-
-                                <form action="{{ route('contacts.destroy', $contact) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Excluir</button>
-                                </form>
-                            @endauth
-                        </td>
+                        <th scope="col">{{ __('messages.contact.name') }}</th>
+                        <th scope="col">{{ __('messages.contact.contact') }}</th>
+                        <th scope="col">{{ __('messages.contact.email') }}</th>
+                        <th scope="col" class="text-end">{{ __('messages.contact.actions') }}</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach ($contacts as $contact)
+                        <tr>
+                            <td>{{ $contact->name }}</td>
+                            <td>{{ $contact->contact }}</td>
+                            <td>{{ $contact->email }}</td>
+                            <td class="text-end">
+                                <a href="{{ route('contacts.show', $contact) }}" class="btn btn-sm btn-outline-info me-1">
+                                    {{ __('messages.contact.view') }}
+                                </a>
+
+                                @auth
+                                    <a href="{{ route('contacts.edit', $contact) }}" class="btn btn-sm btn-outline-warning me-1">
+                                        {{ __('messages.contact.edit') }}
+                                    </a>
+
+                                    <form action="{{ route('contacts.destroy', $contact) }}" method="POST" class="d-inline"
+                                          onsubmit="return confirm('{{ __('messages.contact.confirm_delete') }}')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            {{ __('messages.contact.delete') }}
+                                        </button>
+                                    </form>
+                                @endauth
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         @else
-            <p>Nenhum contato encontrado.</p>
+            <div class="alert alert-info text-center">
+                {{ __('messages.contact.no_contacts') }}
+            </div>
         @endif
     </div>
 @endsection
