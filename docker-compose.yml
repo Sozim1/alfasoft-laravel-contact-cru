@@ -1,0 +1,27 @@
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel_app
+        ports:
+            - 8000:8000
+        volumes:
+            - .:/var/www
+        working_dir: /var/www
+        command: php artisan serve --host=0.0.0.0 --port=8000
+        depends_on:
+            - db
+
+    db:
+        image: mariadb:10.5
+        container_name: laravel_db
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: laravel
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: secret
+        ports:
+            - 3307:3306
+
